@@ -45,4 +45,4 @@ workflows:
       - print-hello
       - print-world:
           requires:
-            - print-world
+            - print-hello
