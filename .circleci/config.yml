@@ -11,11 +11,16 @@ jobs:
     steps:
       - checkout
       - run: return 1
+  rollback_job:
+    <<: *defaults
+    steps:
+      - echo Hello Error!
+
 
 
 workflows:
-  reusability-workflow:
+  failing-workflow:
     jobs:
       - failing_job
       - rollback_job:
-          when:
+          when: on_fail
