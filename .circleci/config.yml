@@ -14,7 +14,7 @@ jobs:
   rollback_job:
     <<: *defaults
     steps:
-      - echo Hello Error!
+      - run: echo Hello Error!
 
 
 
