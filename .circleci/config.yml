@@ -10,11 +10,13 @@ commands:
   print_pipeline_id:
     description: "A very simple command for demonstration purposes"
     parameters:
-      to:
+      what_this_means:
         type: string
         default: "My First Command!"
+      to:
+        type: string
     steps:
-      - run: echo $CIRCLE_WORKFLOW_ID ':' <<parameters.to>>
+      - run: echo $CIRCLE_WORKFLOW_ID ':' <<parameters.what_this_means>> ';' to <<parameters.to>>
 
 jobs:
   command_test_job:
@@ -22,7 +24,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - print_pipeline_id
+      - print_pipeline_id:
+          to: "AOBRI"
 
 
 workflows:
