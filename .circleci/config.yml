@@ -1,35 +1,34 @@
 version: 2.1
 
+# Anchor for docker image
+defaults: &defaults
+  docker:
+    - image: cimg/node:13.8.0
+
+# Commands testing
+commands:
+  print_pipeline_id:
+    description: "A very simple command for demonstration purposes"
+    parameters:
+      to:
+        type: string
+        default: "My First Command!"
+    steps:
+      - run: echo $CIRCLE_WORKFLOW_ID ':' <<parameters.to>>
+
 jobs:
-  save_hello_world_output:
-    docker:
-      - image: cimg/node:13.8.0
+  command_test_job:
+    # Alias to use default docker image
+    <<: *defaults
     steps:
       - checkout
-      - run:
-          name: "Print to output.txt"
-          command: echo "Hello World!!!" > ~/output.txt
-
-      - persist_to_workspace:
-          root: ~/     # relative path to our working directory must be the same when attaching at.
-          paths:      # file globs which will be persisted to the workspace
-            - output.txt
-
-  print_output_file:
-    docker:
-      - image: cimg/node:13.8.0
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: print from output file
-          command: cat ~/output.txt
+      - print_pipeline_id
 
 
 workflows:
-  share-print-hello-workflow:
+  reusability-workflow:
     jobs:
-      - save_hello_world_output
-      - print_output_file:
-          requires:
-            - save_hello_world_output
+      - command_test_job
+#      - print_output_file:
+#          requires:
+#            - save_hello_world_output
