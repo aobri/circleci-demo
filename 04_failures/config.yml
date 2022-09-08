@@ -1,0 +1,23 @@
+version: 2.1
+
+defaults: &defaults
+  docker:
+    - image: cimg/node:13.8.0
+
+
+jobs:
+  failing_job:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: exit 1
+      - run:
+          name: 'rollback step'
+          command: echo Hello Error!
+          when: on_fail
+
+
+workflows:
+  failing-workflow:
+    jobs:
+      - failing_job
