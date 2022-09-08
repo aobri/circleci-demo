@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: "Print to output.txt"
-          command: echo "Hello World!!!" > output.txt
+          command: echo "Hello World!!!" > ~/output.txt
 
       - persist_to_workspace:
           root: ~/     # relative path to our working directory must be the same when attaching at.
