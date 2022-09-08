@@ -1,37 +1,21 @@
 version: 2.1
 
-# Anchor for docker image
 defaults: &defaults
   docker:
     - image: cimg/node:13.8.0
 
-# Commands testing
-commands:
-  print_pipeline_id:
-    description: "A very simple command for demonstration purposes"
-    parameters:
-      what_this_means:
-        type: string
-        default: "My First Command!"
-      to:
-        type: string
-    steps:
-      - run: echo $CIRCLE_WORKFLOW_ID ':' <<parameters.what_this_means>> ';' to <<parameters.to>>
 
 jobs:
-  command_test_job:
-    # Alias to use default docker image
+  failing_job:
     <<: *defaults
     steps:
       - checkout
-      - print_pipeline_id:
-          to: "AOBRI"
+      - run: return 1
 
 
 workflows:
   reusability-workflow:
     jobs:
-      - command_test_job
-#      - print_output_file:
-#          requires:
-#            - save_hello_world_output
+      - failing_job
+      - rollback_job:
+          when:
