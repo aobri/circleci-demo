@@ -11,7 +11,7 @@ jobs:
           command: echo "Hello World!!!" > output.txt
 
       - persist_to_workspace:
-          root: .     # relative path to our working directory
+          root: ~/     # relative path to our working directory must be the same when attaching at.
           paths:      # file globs which will be persisted to the workspace
             - output.txt
 
@@ -20,7 +20,7 @@ jobs:
       - image: cimg/node:13.8.0
     steps:
       - attach_workspace:
-          at: .
+          at: ~/
       - run:
           name: print from output file
           command: cat output.txt
